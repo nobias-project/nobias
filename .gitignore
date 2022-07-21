@@ -130,3 +130,5 @@ dmypy.json
 
 token.txt
 .vscode
+stupid.py
+.DS_Store
