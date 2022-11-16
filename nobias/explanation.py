@@ -3,6 +3,7 @@ from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 import pandas as pd
 import shap
 
+
 class ShapEstimator(BaseEstimator, ClassifierMixin):
     """
     A ShapValues estimator based on tree explainer.
