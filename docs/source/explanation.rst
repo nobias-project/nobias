@@ -2,10 +2,8 @@
 Explanation Shift
 ===================================
 
-NoBias is a Python library for responsible AI
-
-Usage: Explanation Shift
--------------------------
+Usage: 
+-------
 Importing libraries
 
 .. code:: python
@@ -14,7 +12,7 @@ Importing libraries
     from sklearn.datasets import make_blobs
     from xgboost import XGBRegressor
     from sklearn.linear_model import LogisticRegression
-    from tools.xaiUtils import ExplanationShiftDetector
+    from nobias import ExplanationShiftDetector
 
 
 Generate synthetic ID and OOD data.
