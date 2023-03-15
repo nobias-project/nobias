@@ -84,6 +84,9 @@ class ExplanationShiftDetector(BaseEstimator, ClassifierMixin):
             )
 
     def get_gmodel_type(self):
+        """
+        Returns the type of the gmodel
+        """
         if self.gmodel.__class__.__name__ == "Pipeline":
             return self.gmodel.steps[-1][1].__class__.__name__
         else:
@@ -96,6 +99,12 @@ class ExplanationShiftDetector(BaseEstimator, ClassifierMixin):
             return self.model.__class__.__name__
 
     def fit(self, X_source, y_source, X_ood):
+        """
+        1. Fits the model F to the data by splitting the data into two equal parts.
+        2. Get the explanations of the model F on the validation set and OOD
+        3. Fit the inspector to the data to the data.
+
+        """
 
         # Check that X and y have correct shape
         check_X_y(X_source, y_source)
