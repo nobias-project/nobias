@@ -22,6 +22,7 @@ Contents
    installation
    usage
    modules
+   api
 
 
 Indices and tables
