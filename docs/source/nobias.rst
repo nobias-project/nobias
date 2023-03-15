@@ -11,3 +11,12 @@ nobias.audits module
     :members:
     :undoc-members:
     :show-inheritance:
+
+
+ nobias.distributionShift module
+-----------------------
+
+.. automodule:: nobias.distributionShift
+    :members:
+    :undoc-members:
+    :show-inheritance:
