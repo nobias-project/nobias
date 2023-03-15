@@ -12,12 +12,11 @@ Audits: Demographic Parity Inspector
     :undoc-members:
     :show-inheritance:
 
-
-
-Explanation Shift Detector
+Explanations
 -----------------------------------------
 
-.. automodule:: nobias.ExplanationShiftDetector
+.. automodule:: nobias.explanation
+    :noindex:
     :members:
     :undoc-members:
     :show-inheritance:
