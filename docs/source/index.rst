@@ -32,7 +32,7 @@ Usage: Explanation Shift
 
 Importing libraries
 ..  code-block:: python
-    :caption: EXT:site_package/Configuration/TCA/Overrides/sys_template.php
+   :caption: EXT:site_package/Configuration/TCA/Overrides/sys_template.php
 
    from sklearn.datasets import make_blobs
    from xgboost import XGBRegressor
