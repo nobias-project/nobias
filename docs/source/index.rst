@@ -74,7 +74,7 @@ Features
 Here's a list of features that sktools currently offers:
 
 * ``nobias.audits.DemographicParityInspector`` performs demographic parity audits.
-* ``sktools.shift.ExplanationShift`` Detector for explanation shift.
+* ``nobias.distributionshift.ExplanationShiftDetector`` Detector for explanation shift.
 
 Tutorial
 --------
