@@ -7,10 +7,6 @@ build:
 
 sphinx:
   fail_on_warning: true
-  
-formats:
-  - pdf
-  - epub
 
 # Optionally declare the Python requirements required to build your docs
 python:
