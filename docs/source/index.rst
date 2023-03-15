@@ -80,7 +80,7 @@ Tutorial
 --------
 .. toctree::
    :maxdepth: 2
-   :caption: API:
+   :caption: Tutorial:
 
    installation
 
@@ -88,7 +88,7 @@ Documentation
 --------
 .. toctree::
    :maxdepth: 2
-   :caption: API:
+   :caption: Documentation:
 
    audits
    explanation
