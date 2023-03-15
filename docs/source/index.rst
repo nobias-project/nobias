@@ -31,11 +31,14 @@ Usage: Explanation Shift
 -------------------------
 
 Importing libraries
-.. code-block:: python
+..  code-block:: python
+    :caption: EXT:site_package/Configuration/TCA/Overrides/sys_template.php
+
    from sklearn.datasets import make_blobs
    from xgboost import XGBRegressor
    from sklearn.linear_model import LogisticRegression
    from tools.xaiUtils import ExplanationShiftDetector
+
 
 # Synthetic ID and OOD data.
 
