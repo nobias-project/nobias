@@ -32,6 +32,7 @@ Usage: Explanation Shift
 
 Importing libraries
 .. code-block:: python
+   
    from sklearn.datasets import make_blobs
    from xgboost import XGBRegressor
    from sklearn.linear_model import LogisticRegression
@@ -52,7 +53,7 @@ Importing libraries
 
    detector.get_auc_val()
    # 0.70
-..
+
 
 Usage: Demographic Parity Inspector
 -----------------------------------
