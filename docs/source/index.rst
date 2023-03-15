@@ -20,58 +20,54 @@ NoBias is a Python library for responsible AI
 Installation
 ------------
 
-To install sktools, run this command in your terminal:
+To install nobias, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install sktools
+    $ pip install nobias
 
 
-Documentation
--------------
+Usage: Explanation Shift
+-------------------------
 
-Can be found in https://sktools.readthedocs.io
-
-
-Usage
------
+Importing libraries
+.. code-block:: python
+   from sklearn.datasets import make_blobs
+   from xgboost import XGBRegressor
+   from sklearn.linear_model import LogisticRegression
+   from tools.xaiUtils import ExplanationShiftDetector
+..
+Synthetic ID and OOD data.
 
 .. code-block:: python
+   X, y = make_blobs(n_samples=2000, centers=2, n_features=5, random_state=0)
+   X_ood, _ = make_blobs(n_samples=1000, centers=1, n_features=5, random_state=0)
+..
+Fit Explanation Shift Detector where the classifier is a Gradient Boosting Decision Tree and the Detector a logistic regression.
+Any other classifier or detector can be used.
+.. code-block:: python
+   detector = ExplanationShiftDetector(model=XGBRegressor(), gmodel=LogisticRegression())
+   detector.fit(X, y,X_ood)
+..
 
-  from sktools import IsEmptyExtractor
+If the AUC is above 0.5 then we can expect and change on the model predictions.
+.. code-block:: python
+   detector.get_auc_val()
+   # 0.70
+..
 
-  from sklearn.linear_model import LogisticRegression
-  from sklearn.pipeline import Pipeline
+Usage: Demographic Parity Inspector
+-----------------------------------
 
-  ...
-
-  mod = Pipeline([
-      ("impute-features", IsEmptyExtractor()),
-      ("model", LogisticRegression())
-  ])
-
-  ...
-
+amazing workflo
 
 Features
 --------
 
 Here's a list of features that sktools currently offers:
 
-* ``sktools.encoders.NestedTargetEncoder`` performs target encoding suited for variables with nesting.
-* ``sktools.encoders.QuantileEncoder`` performs target aggregation using a quantile instead of the mean.
-* ``sktools.preprocessing.CyclicFeaturizer`` converts numeric to cyclical features via sine and cosine transformations.
-* ``sktools.impute.IsEmptyExtractor`` creates binary variables indicating if there are missing values.
-* ``sktools.matrix_denser.MatrixDenser`` transformer that converts sparse matrices to dense.
-* ``sktools.quantilegroups.GroupedQuantileTransformer`` creates quantiles of a feature by group.
-* ``sktools.quantilegroups.PercentileGroupFeaturizer`` creates features regarding how an instance compares with a quantile of its group.
-* ``sktools.quantilegroups.MeanGroupFeaturizer`` creates features regarding how an instance compares with the mean of its group.
-* ``sktools.selectors.TypeSelector`` gets variables matching a type.
-* ``sktools.selectors.ItemsSelector`` allows to manually choose some variables.
-* ``sktools.ensemble.MedianForestRegressor`` applies the median instead of the mean when aggregating trees predictions.
-* ``sktools.linear_model.QuantileRegression`` sklearn style wrapper for quantile regression.
-* ``sktools.model_selection.BootstrapFold`` bootstrap cross-validator.
-* ``sktools.GradientBoostingFeatureGenerator`` Automated feature generation through gradient boosting.
+* ``nobias.audits.DemographicParityInspector`` performs demographic parity audits.
+* ``sktools.shift.ExplanationShift`` Detector for explanation shift.
 
 
 
