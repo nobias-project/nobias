@@ -12,9 +12,9 @@ To install sktools, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install sktools
+    $ pip install nobias
 
-This is the preferred method to install sktools, as it will always install the most recent stable release.
+This is the preferred method to install nobias, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -32,13 +32,7 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/david26694/sktools
-
-Or download the `tarball`_:
-
-.. code-block:: console
-
-    $ curl -OJL https://github.com/david26694/sktools/tarball/master
+    $ git clone https://github.com/nobias-project/nobias.git
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +41,4 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/david26694/sktools
-.. _tarball: https://github.com/david26694/sktools/tarball/master
+.. _Github repo: https://github.com/nobias-project/nobias.git
