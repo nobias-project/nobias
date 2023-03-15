@@ -32,7 +32,6 @@ Usage: Explanation Shift
 
 Importing libraries
 .. code-block:: python
-
    from sklearn.datasets import make_blobs
    from xgboost import XGBRegressor
    from sklearn.linear_model import LogisticRegression
