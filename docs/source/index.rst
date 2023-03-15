@@ -87,6 +87,7 @@ Contents
    installation
    usage
    modules
+   explanation
    api
 
 
