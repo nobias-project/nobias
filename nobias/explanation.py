@@ -6,7 +6,7 @@ import shap
 
 class ShapEstimator(BaseEstimator, ClassifierMixin):
     """
-    A ShapValues estimator based on tree explainer.
+    RELEASE A ShapValues estimator based on tree explainer.
     Returns the explanations of the data provided self.predict(X)
 
     Example:
