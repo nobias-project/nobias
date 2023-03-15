@@ -30,6 +30,7 @@ To install nobias, run this command in your terminal:
 Usage: Explanation Shift
 -------------------------
 Importing libraries
+
 .. code:: python
 
     import numpy as np
@@ -39,7 +40,7 @@ Importing libraries
     from tools.xaiUtils import ExplanationShiftDetector
 
 
-Synthetic ID and OOD data.
+Generate synthetic ID and OOD data.
 
 .. code:: python
 
@@ -60,6 +61,7 @@ If the AUC is above 0.5 then we can expect and change on the model predictions.
 
     detector.get_auc_val()
     # 0.70
+
 
 Usage: Demographic Parity Inspector
 -----------------------------------
