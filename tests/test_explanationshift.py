@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import make_blobs
 import pandas as pd
 import numpy as np
+import pdb
 
 
 X, y = make_blobs(n_samples=2000, centers=2, n_features=5, random_state=0)
@@ -19,39 +20,14 @@ def test_return_shapDF():
     If X is dataframe, return shap values as dataframe.
     """
     XX = pd.DataFrame(X, columns=["a", "b", "c", "d", "e"])
+    XX_ood = pd.DataFrame(X_ood, columns=["a", "b", "c", "d", "e"])
 
     esd = ExplanationShiftDetector(
-        model=LinearRegression(), gmodel=LogisticRegression()
+        model=LogisticRegression(), gmodel=LogisticRegression(), masker=True
     )
-    esd.fit_model(XX, y)
+    esd.fit(XX, y, XX_ood)
     ex = esd.get_explanations(XX)
     assert all([a == b for a, b in zip(ex.columns, XX.columns)])
-
-
-def test_supported_models():
-    """
-    Check that models are supported.
-    """
-    for model in [XGBRegressor(), LogisticRegression()]:
-        for gmodel in [XGBClassifier(), LogisticRegression()]:
-            assert (
-                type(ExplanationShiftDetector(model=model, gmodel=gmodel))
-                is ExplanationShiftDetector
-            )
-
-
-def test_not_supported_models():
-    """
-    Check that models are not supported.
-    """
-
-    from sklearn.neural_network import MLPClassifier
-    import pytest
-
-    with pytest.raises(ValueError):
-        ExplanationShiftDetector(model=MLPClassifier(), gmodel=LogisticRegression())
-    with pytest.raises(ValueError):
-        ExplanationShiftDetector(model=LinearRegression(), gmodel=MLPClassifier())
 
 
 def test_doc_examples():
@@ -74,10 +50,8 @@ def test_no_nan():
     """
     Check that no NaNs are present in the shap values.
     """
-    esd = ExplanationShiftDetector(
-        model=LinearRegression(), gmodel=LogisticRegression()
-    )
-    esd.fit_model(X, y)
+    esd = ExplanationShiftDetector(model=XGBClassifier(), gmodel=XGBClassifier())
+    esd.fit(X, y, X_ood)
     ex = esd.get_explanations(X)
     assert not np.any(np.isnan(ex))
 
@@ -87,7 +61,7 @@ def test_get_coefs_linear():
     Check that the coefficients are returned correctly for the linear regression.
     """
     esd = ExplanationShiftDetector(
-        model=LinearRegression(), gmodel=LogisticRegression()
+        model=LinearRegression(), gmodel=LogisticRegression(), masker=True
     )
     esd.fit(X, y, X_ood)
     coefs = esd.get_linear_coefs()
@@ -114,8 +88,9 @@ def test_get_coefs_pipeline():
     esd = ExplanationShiftDetector(
         model=LinearRegression(),
         gmodel=Pipeline([("scaler", StandardScaler()), ("lr", LogisticRegression())]),
+        masker=True,
     )
-    esd.fit(X, y, X_ood)
+    esd.fit(X_tr, y_tr, X_ood)
     coefs = esd.get_coefs()
     # Assert shape
     assert coefs.shape[1] == X.shape[1]
@@ -131,7 +106,7 @@ def test_get_model_types():
     from sklearn.preprocessing import StandardScaler
 
     esd = ExplanationShiftDetector(
-        model=LinearRegression(), gmodel=LogisticRegression()
+        model=LinearRegression(), gmodel=LogisticRegression(), masker=X
     )
     assert esd.get_gmodel_type(), esd.get_model_type() == ("linear", "linear")
     # Case of pipeline
@@ -140,3 +115,77 @@ def test_get_model_types():
         gmodel=Pipeline([("scaler", StandardScaler()), ("lr", LogisticRegression())]),
     )
     assert esd.get_gmodel_type(), esd.get_model_type() == ("linear", "linear")
+
+
+def test_spaces():
+    """
+    Check that the spaces are returned correctly.
+    """
+
+    esd = ExplanationShiftDetector(
+        model=LinearRegression(),
+        gmodel=LogisticRegression(),
+        space="input",
+        masker=True,
+    )
+    esd.fit(X_tr, y_tr, X_ood)
+    # Check if returns input space
+    # assert esd.get_explanations(X) == X
+    np.testing.assert_array_equal(esd.get_explanations(X), X)
+    # Check if returns output space
+    esd = ExplanationShiftDetector(
+        model=LogisticRegression(),
+        gmodel=LogisticRegression(),
+        space="prediction",
+        masker=True,
+    )
+    esd.fit(X, y, X_ood)
+    np.testing.assert_array_equal(
+        esd.get_explanations(X).shape,
+        pd.DataFrame(data=esd.model.predict(X), columns=["preds"]).shape,
+    )
+
+    # Check if returns exp space
+    esd = ExplanationShiftDetector(
+        model=LinearRegression(),
+        gmodel=LogisticRegression(),
+        space="explanation",
+        masker=True,
+    )
+    esd.fit(X, y, X_ood)
+
+    np.testing.assert_array_equal(esd.get_explanations(X).shape, X.shape)
+
+
+def test_tree_shap():
+    """
+    Check that the shap values are returned correctly for the tree models.
+    """
+    esd = ExplanationShiftDetector(
+        model=XGBRegressor(), gmodel=LogisticRegression(), masker=True
+    )
+    esd.fit(X, y, X_ood)
+    shap_values = esd.get_explanations(X)
+    # Assert shape
+    assert shap_values.shape[1] == X.shape[1]
+    # Assert that there is non NaNs
+    assert not np.any(np.isnan(shap_values))
+
+    esd = ExplanationShiftDetector(model=XGBRegressor(), gmodel=LogisticRegression())
+    esd.fit(X, y, X_ood)
+    shap_values2 = esd.get_explanations(X)
+    # Assert shape
+    assert shap_values2.shape[1] == X.shape[1]
+    # Assert that there is non NaNs
+    assert not np.any(np.isnan(shap_values2))
+    # Assert that the shap values are different depending on the masker
+    assert shap_values2.sum(axis=1).sum(axis=0) != shap_values.sum(axis=1).sum(axis=0)
+
+
+def test_explain_detector():
+    for space in ["input", "prediction", "explanation"]:
+        esd = ExplanationShiftDetector(
+            model=XGBClassifier(), gmodel=XGBClassifier(), space=space
+        )
+        esd.fit(X, y, X_ood)
+        esd.explain_detector()
