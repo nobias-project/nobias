@@ -13,10 +13,11 @@ nobias.audits module
     :show-inheritance:
 
 
- nobias.distributionShift module
------------------------
 
-.. automodule:: nobias.distributionShift
+nobias.ExplanationShiftDetector module
+-----------------------------------------
+
+.. automodule:: nobias.ExplanationShiftDetector
     :members:
     :undoc-members:
     :show-inheritance:
