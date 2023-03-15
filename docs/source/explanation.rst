@@ -1,10 +1,7 @@
+Explanation Shift
+-----------------------------------------
 
-Explanation Shift Detector
-===================================
-
-.. automodule:: nobias.ExplanationShiftDetector
+.. automodule:: nobias.distributionshift
     :members:
     :undoc-members:
     :show-inheritance:
-
-
