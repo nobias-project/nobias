@@ -1,8 +1,6 @@
 Nobias package
 ===============
-
-Submodules
-----------
+This package contains the implementation of the nobias library.
 
 Audits: Demographic Parity Inspector
 ------------------------------------------
@@ -16,7 +14,7 @@ Explanations
 -----------------------------------------
 
 .. automodule:: nobias.explanation
-    :noindex:
     :members:
     :undoc-members:
     :show-inheritance:
+
