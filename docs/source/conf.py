@@ -2,6 +2,8 @@
 
 # -- Project information
 
+import sphinx_rtd_theme
+
 project = 'NoBias'
 copyright = '2022, Mougan'
 author = 'Carlos Mougan'
@@ -17,7 +19,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    "sphinx.ext.myst_parser",
+    "myst_parser",
 ]
 
 intersphinx_mapping = {
@@ -30,7 +32,10 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = "classic"
+html_theme = "sphinx_rtd_theme"
+
+# Add any paths that contain custom themes here, relative to this directory.
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
