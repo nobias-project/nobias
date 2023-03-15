@@ -20,6 +20,10 @@ Welcome to NoBias's documentation!
 
 NoBias is a Python library for responsible AI
 
+.. note::
+
+   This project is under active development.
+
 Installation
 ------------
 
@@ -54,7 +58,6 @@ Fit Explanation Shift Detector where the classifier is a Gradient Boosting Decis
 
 .. code:: python
 
-    import numpy as np
     detector = ExplanationShiftDetector(model=XGBRegressor(), gmodel=LogisticRegression())
     detector.fit(X, y,X_ood)
    
@@ -86,6 +89,8 @@ Tutorial
    :caption: Tutorial:
 
    installation
+   explanationTutorial
+   auditTutorial
 
 Documentation
 ----------------
