@@ -3,6 +3,7 @@
 # -- Project information
 
 import sphinx_rtd_theme
+import nobias
 
 project = 'NoBias'
 copyright = '2022, Mougan'
