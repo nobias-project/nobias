@@ -37,3 +37,10 @@ If the AUC is above 0.5 then we can expect and change on the model predictions.
     detector.get_auc_val()
     # 0.70
 
+Explanation Shift Detector
+-----------------------------------------
+
+.. automodule:: nobias.ExplanationShiftDetector
+    :members:
+    :undoc-members:
+    :show-inheritance:

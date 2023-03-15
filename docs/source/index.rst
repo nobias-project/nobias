@@ -81,7 +81,7 @@ Here's a list of features that sktools currently offers:
 Contents
 --------
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
 
    installation

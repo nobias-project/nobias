@@ -4,8 +4,8 @@ Nobias package
 Submodules
 ----------
 
-nobias.audits module
------------------------
+Audits: Demographic Parity Inspector
+------------------------------------------
 
 .. automodule:: nobias.audits
     :members:
@@ -14,7 +14,7 @@ nobias.audits module
 
 
 
-nobias.ExplanationShiftDetector module
+Explanation Shift Detector
 -----------------------------------------
 
 .. automodule:: nobias.ExplanationShiftDetector
