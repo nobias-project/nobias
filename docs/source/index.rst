@@ -1,15 +1,18 @@
-.. image:: https://img.shields.io/pypi/v/sktools.svg
-        :target: https://pypi.python.org/pypi/sktools
+.. image:: https://img.shields.io/pypi/v/nobias.svg
+        :target: https://pypi.python.org/pypi/nobias
 
 .. image:: https://github.com/david26694/sktools/workflows/Unit%20Tests/badge.svg
         :target: https://github.com/david26694/sktools/actions
 
-.. image:: https://readthedocs.org/projects/sktools/badge/?version=latest
-        :target: https://sktools.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/nobias/badge/?version=latest
+        :target: https://nobias.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://static.pepy.tech/personalized-badge/sktools?period=total&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads
-        :target: https://pepy.tech/project/sktools
+.. image:: https://img.shields.io/badge/Workshop-NIPS-blue
+        :target: https://img.shields.io/badge/Workshop-NIPS-blue
+
+.. image:: https://static.pepy.tech/personalized-badge/nobias?period=total&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads
+        :target: https://pepy.tech/project/nobias
 
 
 Welcome to NoBias's documentation!
