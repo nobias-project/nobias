@@ -85,7 +85,6 @@ Contents
    :caption: Contents:
 
    installation
-   usage
    modules
    explanation
    api
