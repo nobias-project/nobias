@@ -85,13 +85,14 @@ Tutorial
    installation
 
 Documentation
---------
+----------------
 .. toctree::
    :maxdepth: 2
    :caption: Documentation:
 
    audits
    explanation
+   api
 
 
 Indices and tables
