@@ -34,52 +34,92 @@ To install nobias, run this command in your terminal:
     $ pip install nobias
 
 
-Usage: Explanation Shift
--------------------------
+Usage: Equal Treatment Inspector
+-------------------------------------
+
+
+Synthetic example
+--------------------------
+
 Importing libraries
 
 .. code:: python
 
-    import numpy as np
-    from sklearn.datasets import make_blobs
-    from xgboost import XGBRegressor
-    from sklearn.linear_model import LogisticRegression
-    from nobias import ExplanationShiftDetector
+   from sklearn.model_selection import train_test_split
+   from sklearn.datasets import make_blobs
+   from nobias import ExplanationAudit
+   from xgboost import XGBClassifier
+   from sklearn.linear_model import LogisticRegression
+   from sklearn.metrics import roc_auc_score
+   import pandas as pd
+   import numpy as np
+   import random
+   import matplotlib.pyplot as plt
+   random.seed(0)
 
-
-Generate synthetic ID and OOD data.
-
-.. code:: python
-
-    X, y = make_blobs(n_samples=2000, centers=2, n_features=5, random_state=0)
-    X_ood, _ = make_blobs(n_samples=1000, centers=1, n_features=5, random_state=0)
-
-Fit Explanation Shift Detector where the classifier is a Gradient Boosting Decision Tree and the Detector a logistic regression. Any other classifier or detector can be used.
+Let's generate a synthetic dataset with a protected attribute and a target variable.
 
 .. code:: python
 
-    detector = ExplanationShiftDetector(model=XGBRegressor(), gmodel=LogisticRegression())
-    detector.fit(X, y,X_ood)
-   
+   X, y = make_blobs(n_samples=2000, centers=2, n_features=5, random_state=0)
+   X = pd.DataFrame(X, columns=["a", "b", "c", "d", "e"])
+   # Protected att
+   X["a"] = np.where(X["a"] > X["a"].mean(), 1, 0)
+
+   # Train Val Holdout Split
+   X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.5, random_state=0)
+   X_hold, X_te, y_hold, y_te = train_test_split(X_te, y_te, test_size=0.5, random_state=0)
+
+   z_tr = X_tr["a"]
+   z_te = X_te["a"]
+   z_hold = X_hold["a"]
+   X_tr = X_tr.drop("a", axis=1)
+   X_te = X_te.drop("a", axis=1)
+   X_hold = X_hold.drop("a", axis=1)
+   # Random
+   z_tr_ = np.random.randint(0, 2, size=X_tr.shape[0])
+   z_te_ = np.random.randint(0, 2, size=X_te.shape[0])
+   z_hold_ = np.random.randint(0, 2, size=X_hold.shape[0])
+
+
+Now there is two training options that are equivalent, 
+either passing a trained model and just training the Inspector
+
+Fit ET Inspector where the classifier is a Gradient Boosting Decision Tree and the Detector a logistic regression. Any other classifier or detector can be used.
+
+.. code:: python
+
+   # Option 1: fit the auditor when there is a trained model
+   model = XGBClassifier().fit(X_tr, y_tr)
+
+   auditor = ExplanationAudit(model=model, gmodel=LogisticRegression())
+
+   auditor.fit_inspector(X_hold, z_hold)
+   print(roc_auc_score(z_te, auditor.predict_proba(X_te)[:, 1]))
+   # 0.84
+
+Or fit the whole pipeline without previous retraining.
 If the AUC is above 0.5 then we can expect and change on the model predictions.
 
 .. code:: python
 
-    detector.get_auc_val()
-    # 0.70
+   # Option 2: fit the whole pipeline of model and auditor at once
+   auditor.fit_pipeline(X=X_tr, y=y_tr, z=z_tr)
+   print(roc_auc_score(z_te, auditor.predict_proba(X_te)[:, 1]))
+   # 0.83
 
-
-Usage: Demographic Parity Inspector
------------------------------------
-
-amazing workflo
-
+   # If we fit to random protected att, there is no performance
+   # We fit in the previous generated random data
+   auditor.fit_pipeline(X=X_tr, y=y_tr, z=z_tr_)
+   print(roc_auc_score(z_te_, auditor.predict_proba(X_te)[:, 1]))
+   # 0.5
+   
 Features
 --------
 
 Here's a list of features that sktools currently offers:
 
-* ``nobias.audits.DemographicParityInspector`` performs demographic parity audits.
+* ``nobias.audits.ExplanationAudit`` performs equal treatment audits.
 * ``nobias.distributionshift.ExplanationShiftDetector`` Detector for explanation shift.
 
 Tutorial
@@ -89,7 +129,6 @@ Tutorial
    :caption: Tutorial:
 
    installation
-   explanationTutorial
    auditTutorial
 
 Documentation
@@ -99,7 +138,6 @@ Documentation
    :caption: Documentation:
 
    audits
-   explanation
    api
 
 
