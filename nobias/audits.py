@@ -44,7 +44,7 @@ class ExplanationAudit(BaseEstimator, ClassifierMixin):
         verbose=False,
     ):
         self.model = model
-        self.gmodel = gmodel
+        self.inspector = gmodel
         self.explainer = None
         self.algorithm = algorithm
         self.masker = masker
@@ -73,7 +73,7 @@ class ExplanationAudit(BaseEstimator, ClassifierMixin):
         if self.verbose:
             print(f"Protected attribute values: {X[self.Z].unique()}")
 
-        self.gmodel.fit(self.get_explanations(X), z)
+        self.inspector.fit(self.get_explanations(X), z)
 
     def fit_pipeline(self, X, y, z):
         """
@@ -147,10 +147,10 @@ class ExplanationAudit(BaseEstimator, ClassifierMixin):
         """
         Returns the predictions (ID,OOD) of the detector on the data X.
         """
-        return self.gmodel.predict(self.get_explanations(X))
+        return self.inspector.predict(self.get_explanations(X))
 
     def predict_proba(self, X):
         """
         Returns the soft predictions (ID,OOD) of the detector on the data X.
         """
-        return self.gmodel.predict_proba(self.get_explanations(X))
+        return self.inspector.predict_proba(self.get_explanations(X))
